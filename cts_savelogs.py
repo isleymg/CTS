@@ -6,10 +6,15 @@ import datetime
 now = datetime.datetime.now()
 current_date = now.strftime("%m-%d-%Y")
 
-def read_from_log():
+def read_from_log(filename):
 	'''Reads from a log.txt file of past clockings and returns the total amount of time
 	worked so far'''
-	pass	
+	with open(filename, 'r') as file:
+		lines = file.readlines()
+		print("In your work history you have logged:  ")
+		print("----------------------------------------------  ")
+		for eachline in lines:
+			print eachline
 
 def write_to_log(clockList, hours, minutes):
 	'''Takes a clockList of clockings, the duration in hours and in minutes, and writes to a 
@@ -20,7 +25,7 @@ def write_to_log(clockList, hours, minutes):
 	with open('log.txt', 'a') as file:
 		file.write(str(tupletext))
 		file.write("\n")
-		print 'hours worked has been logged'
+		print 'Your hours worked today has been logged in log.txt \n'
 
 def main():
 	'''Main function that includes all user prompts, processes input, calculates duration of 
@@ -43,7 +48,7 @@ def main():
 			print "Also note that the times do not loop (sorry to you all-nighters)."
 			c_time = (raw_input("Clock in %d: " % (n + 1)), raw_input("Clock out %d: " % (n + 1)))
 		clock_list.append(c_time)
-	print 'Calculating...'
+	print 'Calculating...\n'
 
 	workers_fine = False
 	total = 0
@@ -70,6 +75,8 @@ def main():
 		print 'You worked %d hour(s) and %d minute(s) overtime today' % ((hours - 8), (minutes))
 
 	write_to_log(clock_list, hours, minutes)
+
+	read_from_log('log.txt')
 
 if __name__ == "__main__":
 	main()
